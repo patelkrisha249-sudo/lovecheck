@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoveCheck ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            LoveCheck ❤️
+        </div>
+
+        <div class="nav-links">
+
+            <button onclick="goHome()">
+                Home
+            </button>
+
+            <button onclick="goTest()">
+                Test
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HOME -->
+
+    <section id="home">
+
+        <div class="home-box">
+
+            <div class="heart">
+                ❤️
+            </div>
+
+            <h1>
+                Welcome to LoveCheck
+            </h1>
+
+            <p>
+                Is your relationship giving
+                <b>Green Flags 💚</b>,
+                <b>Red Flags 🚩</b>,
+                or
+                <b>Mixed Signals 🟡?</b>
+            </p>
+
+            <p>
+                Answer a few simple questions
+                and discover your relationship vibe.
+            </p>
+
+            <button class="start" onclick="startTest()">
+                Start the Test 🚀
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- TEST -->
+
+    <section id="test">
+
+        <div class="test-box">
+
+            <p id="number">
+                Question 1 of 7
+            </p>
+
+            <div class="progress-box">
+
+                <div class="progress" id="progress"></div>
+
+            </div>
+
+            <h2 id="question">
+                Does your partner respect your boundaries?
+            </h2>
+
+            <div class="answers">
+
+                <button class="green" onclick="answer('green')">
+                    YES 💚
+                </button>
+
+                <button class="yellow" onclick="answer('mixed')">
+                    SOMETIMES 🟡
+                </button>
+
+                <button class="red" onclick="answer('red')">
+                    NO 🚩
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section id="result">
+
+        <div class="result-box">
+
+            <div class="result-icon" id="resultIcon">
+                ❤️
+            </div>
+
+            <h1 id="resultTitle">
+                Your Result
+            </h1>
+
+            <p class="score" id="score"></p>
+
+            <p id="message"></p>
+
+            <br>
+
+            <button class="restart" onclick="restart()">
+                🔄 Take Test Again
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LoveCheck ❤️</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff0f3;
+            color: #222;
+            transition: 0.6s;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            height: 70px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            box-shadow: 0 2px 15px #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ff477e;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: #444;
+            font-size: 16px;
+            margin-left: 25px;
+            cursor: pointer;
+        }
+
+        .nav-links button:hover {
+            color: #ff477e;
+        }
+
+        /* HOME */
+
+        #home {
+            min-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .home-box {
+            max-width: 650px;
+            padding: 30px;
+        }
+
+        .heart {
+            font-size: 70px;
+            animation: beat 1s infinite;
+        }
+
+        @keyframes beat {
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        .home-box h1 {
+            font-size: 55px;
+            color: #ff477e;
+            margin: 15px;
+        }
+
+        .home-box p {
+            font-size: 19px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* START BUTTON */
+
+        .start {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 30px;
+            background: #ff477e;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px #ffb3c6;
+            margin-top: 15px;
+        }
+
+        .start:hover {
+            transform: scale(1.08);
+        }
+
+        /* TEST */
+
+        #test {
+            display: none;
+            min-height: 90vh;
+            padding: 60px 20px;
+        }
+
+        .test-box {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 10px 35px #ddd;
+        }
+
+        #number {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* PROGRESS BAR */
+
+        .progress-box {
+            background: #eee;
+            height: 10px;
+            border-radius: 10px;
+            margin: 20px 0 35px;
+        }
+
+        .progress {
+            height: 10px;
+            width: 0%;
+            background: #ff477e;
+            border-radius: 10px;
+            transition: 0.5s;
+        }
+
+        #question {
+            font-size: 25px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        /* ANSWERS */
+
+        .answers button {
+            width: 100%;
+            padding: 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .answers button:hover {
+            transform: translateX(8px);
+        }
+
+        .green {
+            background: #d8f3dc;
+        }
+
+        .yellow {
+            background: #fff3bf;
+        }
+
+        .red {
+            background: #ffd6d6;
+        }
+
+        /* RESULT */
+
+        #result {
+            display: none;
+            min-height: 90vh;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .result-box {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px #aaa;
+        }
+
+        .result-icon {
+            font-size: 80px;
+        }
+
+        #resultTitle {
+            font-size: 35px;
+            margin: 15px;
+        }
+
+        .score {
+            font-size: 20px;
+            margin: 20px;
+            line-height: 1.8;
+        }
+
+        #message {
+            line-height: 1.5;
+        }
+
+        .restart {
+            padding: 13px 30px;
+            border: none;
+            border-radius: 25px;
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+
+        .restart:hover {
+            transform: scale(1.05);
+        }
+
+        /* RED SHAKE */
+
+        .shake {
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-12px);
+            }
+
+            50% {
+                transform: translateX(12px);
+            }
+
+            75% {
+                transform: translateX(-12px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-links button {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+
+            .home-box h1 {
+                font-size: 40px;
+            }
+
+            .home-box p {
+                font-size: 16px;
+            }
+
+            #question {
+                font-size: 21px;
+            }
+
+            .test-box {
+                padding: 25px;
+            }
+
+            .result-box {
+                padding: 30px 20px;
+            }
+
+            #resultTitle {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            LoveCheck ❤️
+        </div>
+
+        <div class="nav-links">
+
+            <button onclick="goHome()">
+                Home
+            </button>
+
+            <button onclick="goTest()">
+                Test
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HOME -->
+
+    <section id="home">
+
+        <div class="home-box">
+
+            <div class="heart">
+                ❤️
+            </div>
+
+            <h1>
+                Welcome to LoveCheck
+            </h1>
+
+            <p>
+                Is your relationship giving
+                <b>Green Flags 💚</b>,
+                <b>Red Flags 🚩</b>,
+                or
+                <b>Mixed Signals 🟡?</b>
+            </p>
+
+            <p>
+                Answer a few simple questions
+                and discover your relationship vibe.
+            </p>
+
+            <button class="start" onclick="startTest()">
+                Start the Test 🚀
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- TEST -->
+
+    <section id="test">
+
+        <div class="test-box">
+
+            <p id="number">
+                Question 1 of 7
+            </p>
+
+            <div class="progress-box">
+
+                <div class="progress" id="progress"></div>
+
+            </div>
+
+            <h2 id="question">
+                Does your partner respect your boundaries?
+            </h2>
+
+            <div class="answers">
+
+                <button class="green" onclick="answer('green')">
+                    YES 💚
+                </button>
+
+                <button class="yellow" onclick="answer('mixed')">
+                    SOMETIMES 🟡
+                </button>
+
+                <button class="red" onclick="answer('red')">
+                    NO 🚩
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section id="result">
+
+        <div class="result-box">
+
+            <div class="result-icon" id="resultIcon">
+                ❤️
+            </div>
+
+            <h1 id="resultTitle">
+                Your Result
+            </h1>
+
+            <p class="score" id="score"></p>
+
+            <p id="message"></p>
+
+            <br>
+
+            <button class="restart" onclick="restart()">
+                🔄 Take Test Again
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /* QUESTIONS */
+
+        const questions = [
+
+            "Does your partner respect your boundaries?",
+
+            "Do they support your dreams and goals?",
+
+            "Do they listen when you are upset?",
+
+            "Do they get extremely jealous when you talk to others?",
+
+            "Do they respect your personal space?",
+
+            "Do they apologize when they make a mistake?",
+
+            "Do you feel comfortable being yourself around them?"
+
+        ];
+
+
+        /* VARIABLES */
+
+        let questionNumber = 0;
+
+        let green = 0;
+
+        let red = 0;
+
+        let mixed = 0;
+
+
+        /* HOME */
+
+        function goHome() {
+
+            document.getElementById("home").style.display = "flex";
+
+            document.getElementById("test").style.display = "none";
+
+            document.getElementById("result").style.display = "none";
+
+            document.body.style.background = "#fff0f3";
+
+        }
+
+
+        /* TEST NAVIGATION */
+
+        function goTest() {
+
+            document.getElementById("home").style.display = "none";
+
+            document.getElementById("test").style.display = "block";
+
+            document.getElementById("result").style.display = "none";
+
+            showQuestion();
+
+        }
+
+
+        /* START TEST */
+
+        function startTest() {
+
+            questionNumber = 0;
+
+            green = 0;
+
+            red = 0;
+
+            mixed = 0;
+
+            document.getElementById("home").style.display = "none";
+
+            document.getElementById("test").style.display = "block";
+
+            document.getElementById("result").style.display = "none";
+
+            document.body.style.background = "#fff0f3";
+
+            showQuestion();
+
+        }
+
+
+        /* SHOW QUESTION */
+
+        function showQuestion() {
+
+            document.getElementById("question").innerHTML =
+                questions[questionNumber];
+
+            document.getElementById("number").innerHTML =
+                "Question " + (questionNumber + 1) +
+                " of " + questions.length;
+
+
+            let percentage =
+                ((questionNumber + 1) / questions.length) * 100;
+
+            document.getElementById("progress").style.width =
+                percentage + "%";
+
+        }
+
+
+        /* ANSWER */
+
+        function answer(type) {
+
+            if (type === "green") {
+
+                green++;
+
+                greenEffect();
+
+            }
+
+            else if (type === "red") {
+
+                red++;
+
+                redEffect();
+
+            }
+
+            else {
+
+                mixed++;
+
+                mixedEffect();
+
+            }
+
+
+            questionNumber++;
+
+
+            if (questionNumber < questions.length) {
+
+                setTimeout(function () {
+
+                    showQuestion();
+
+                }, 500);
+
+            }
+
+            else {
+
+                setTimeout(function () {
+
+                    showResult();
+
+                }, 600);
+
+            }
+
+        }
+
+
+        /* GREEN EFFECT */
+
+        function greenEffect() {
+
+            document.body.style.background =
+                "linear-gradient(135deg, #d8f3dc, #95d5b2)";
+
+        }
+
+
+        /* RED EFFECT */
+
+        function redEffect() {
+
+            document.body.style.background =
+                "linear-gradient(135deg, #ffccd5, #ff4d6d)";
+
+            document.body.classList.add("shake");
+
+            setTimeout(function () {
+
+                document.body.classList.remove("shake");
+
+            }, 400);
+
+            buzzer();
+
+        }
+
+
+        /* MIXED EFFECT */
+
+        function mixedEffect() {
+
+            document.body.style.background =
+                "linear-gradient(135deg, #fff3bf, #ffd166)";
+
+        }
+
+
+        /* RESULT */
+
+        function showResult() {
+
+            document.getElementById("test").style.display = "none";
+
+            document.getElementById("result").style.display = "block";
+
+
+            if (red >= 4) {
+
+                document.getElementById("resultIcon").innerHTML = "🚨";
+
+                document.getElementById("resultTitle").innerHTML =
+                    "RED FLAG ALERT!";
+
+                document.getElementById("score").innerHTML =
+                    "🚩 Red Flags: " + red +
+                    "<br>💚 Green Flags: " + green +
+                    "<br>🟡 Mixed: " + mixed;
+
+                document.getElementById("message").innerHTML =
+                    "There are some serious warning signs. Take a step back and think about what feels right for you.";
+
+                document.body.style.background =
+                    "linear-gradient(135deg, #ff0000, #780000)";
+
+                buzzer();
+
+            }
+
+            else if (green >= 4) {
+
+                document.getElementById("resultIcon").innerHTML = "💚";
+
+                document.getElementById("resultTitle").innerHTML =
+                    "GREEN FLAG!";
+
+                document.getElementById("score").innerHTML =
+                    "💚 Green Flags: " + green +
+                    "<br>🚩 Red Flags: " + red +
+                    "<br>🟡 Mixed: " + mixed;
+
+                document.getElementById("message").innerHTML =
+                    "Looks like your relationship has some really positive signs! ✨";
+
+                document.body.style.background =
+                    "linear-gradient(135deg, #56ab2f, #a8e063)";
+
+                happySound();
+
+            }
+
+            else {
+
+                document.getElementById("resultIcon").innerHTML = "🟡";
+
+                document.getElementById("resultTitle").innerHTML =
+                    "MIXED SIGNALS!";
+
+                document.getElementById("score").innerHTML =
+                    "💚 Green Flags: " + green +
+                    "<br>🚩 Red Flags: " + red +
+                    "<br>🟡 Mixed: " + mixed;
+
+                document.getElementById("message").innerHTML =
+                    "Hmm... it's complicated. Some things look good, while others need attention. 🤔";
+
+                document.body.style.background =
+                    "linear-gradient(135deg, #f9d423, #ffedbc)";
+
+            }
+
+        }
+
+
+        /* BUZZER SOUND */
+
+        function buzzer() {
+
+            try {
+
+                const audio = new (window.AudioContext ||
+                    window.webkitAudioContext)();
+
+                const sound = audio.createOscillator();
+
+                sound.type = "sawtooth";
+
+                sound.frequency.value = 100;
+
+                sound.connect(audio.destination);
+
+                sound.start();
+
+                sound.stop(audio.currentTime + 0.5);
+
+            }
+
+            catch (error) {
+
+                console.log("Audio not supported");
+
+            }
+
+        }
+
+
+        /* HAPPY SOUND */
+
+        function happySound() {
+
+            try {
+
+                const audio = new (window.AudioContext ||
+                    window.webkitAudioContext)();
+
+                const sound = audio.createOscillator();
+
+                sound.type = "sine";
+
+                sound.frequency.value = 700;
+
+                sound.connect(audio.destination);
+
+                sound.start();
+
+                sound.stop(audio.currentTime + 0.3);
+
+            }
+
+            catch (error) {
+
+                console.log("Audio not supported");
+
+            }
+
+        }
+
+
+        /* RESTART */
+
+        function restart() {
+
+            questionNumber = 0;
+
+            green = 0;
+
+            red = 0;
+
+            mixed = 0;
+
+            document.getElementById("result").style.display = "none";
+
+            document.getElementById("test").style.display = "none";
+
+            document.getElementById("home").style.display = "flex";
+
+            document.body.style.background = "#fff0f3";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
